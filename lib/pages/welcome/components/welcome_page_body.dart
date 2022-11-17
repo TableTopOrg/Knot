@@ -15,7 +15,7 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       color: backgroundColorLight,
       child: GridView.count(
           primary: false,
