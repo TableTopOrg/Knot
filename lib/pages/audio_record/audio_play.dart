@@ -66,7 +66,7 @@ class _AudioPlayState extends State<AudioPlay> {
           itemCount: widget.note.cnt,
           itemBuilder: (BuildContext context, int index) {
             return  IconButton(
-              onPressed: () => getPlayback('{${widget.note.title.replaceAll(' ', '')}_$index.aac'),
+              onPressed: () => getPlayback('${widget.note.title}_$index.aac'),
               icon: Icon(!widget.note.isPlaybackReady ? Icons.stop : Icons.play_arrow),
               color: !widget.note.isPlaybackReady ? Colors.grey : Colors.blue,
             );
