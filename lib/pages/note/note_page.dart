@@ -4,7 +4,8 @@ import 'package:knot/constants.dart';
 import 'package:knot/notes/notes.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
 import 'package:knot/pages/note/components/note_page_body.dart';
-
+import 'package:knot/pages/speech_to_text/audio_to_text.dart';
+import 'package:knot/pages/speech_to_text/realtime_speech_to_text.dart';
 import '../audio_record/audio_play.dart';
 
 class FloatingNote extends StatefulWidget {
@@ -43,6 +44,33 @@ class _FloatingNoteState extends State<FloatingNote> {
             Navigator.pop(context);
           },
           icon: SvgPicture.asset("assets/icons/back.svg")),
+        actions: <Widget>[
+    IconButton(
+    icon: Icon(Icons.search), 
+    onPressed: () {
+    // 아이콘 버튼 실행
+
+    Navigator.push(
+        context,
+    MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Home Page')),
+          );
+        },
+    color: Colors.grey,
+    ),
+          IconButton(
+            icon: Icon(Icons.headset_mic), 
+            onPressed: () {
+              // 아이콘 버튼 실행
+            
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SpeechSampleApp()),
+              );
+            },
+            color: Colors.grey,
+          )
+    ],
+
     );
   }
 }
