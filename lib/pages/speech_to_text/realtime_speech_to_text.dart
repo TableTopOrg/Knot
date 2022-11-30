@@ -11,12 +11,14 @@ void main() => runApp(SpeechSampleApp());
 class SpeechSampleApp extends StatefulWidget {
   @override
   _SpeechSampleAppState createState() => _SpeechSampleAppState();
+
 }
 
 /// An example that demonstrates the basic functionality of the
 /// SpeechToText plugin for using the speech recognition capability
 /// of the underlying platform.
 class _SpeechSampleAppState extends State<SpeechSampleApp> {
+
   bool _hasSpeech = false;
   bool _logEvents = false;
   final TextEditingController _pauseForController =
@@ -48,7 +50,8 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
       var hasSpeech = await speech.initialize(
         onError: errorListener,
         onStatus: statusListener,
-        debugLogging: true,
+
+
       );
       if (hasSpeech) {
         // Get the list of languages installed on the supporting platform so they
@@ -74,9 +77,11 @@ class _SpeechSampleAppState extends State<SpeechSampleApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
         appBar: AppBar(
-          title: const Text('Speech to Text Example'),
+          title: const Text('Speech to Text RealTime'),
+
         ),
         body: Column(children: [
           HeaderWidget(),
