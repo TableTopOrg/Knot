@@ -43,7 +43,7 @@ dependencies:
   firebase_storage: ^11.0.5
   cloud_firestore: ^4.0.1
   google_speech: ^2.0.1
-  permission_handler: ^8.1.4+2
+  # permission_handler: ^8.1.4+2
   loading_indicator: ^3.1.0
   downloads_path_provider_28: ^0.1.2
   speech_to_text: ^6.1.0

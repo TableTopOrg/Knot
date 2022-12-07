@@ -6,9 +6,13 @@ import '../../constants.dart';
 import '../../notes/notes.dart';
 
 class AudioRecord extends StatefulWidget {
-  const AudioRecord({super.key, required this.note});//{Key? key}) : super(key: key);
+  const AudioRecord(
+      {super.key,
+      required this.note,
+      required this.refresh}); //{Key? key}) : super(key: key);
 
   final Note note;
+  final VoidCallback refresh;
 
   @override
   State<AudioRecord> createState() => _AudioRecordState();
@@ -29,40 +33,44 @@ class _AudioRecordState extends State<AudioRecord> {
     widget.note.recorder.closeRecorder();
   }
 
-  Future initRecorder() async{
+  Future initRecorder() async {
     // 마이크 허용권한 얻고 Recorder open
     final status = await Permission.microphone.request();
-    if(status != PermissionStatus.granted){
+    if (status != PermissionStatus.granted) {
       throw RecordingPermissionException('permission not granted');
     }
     await widget.note.recorder.openRecorder();
-    widget.note.recorder.setSubscriptionDuration(const Duration(milliseconds: 500));
+    widget.note.recorder
+        .setSubscriptionDuration(const Duration(milliseconds: 500));
     widget.note.isRecorderInited = true;
   }
 
   void startRecord() {
     // 녹음 시 title_cnt.aac 파일 형태로 저장하고, cnt 증가시킴
-    var time = DateTime.now().millisecondsSinceEpoch;//DateTime.now();
+    var time = DateTime.now().millisecondsSinceEpoch; //DateTime.now();
     String path = '${widget.note.title}_${widget.note.cnt}.aac';
-    widget.note.recorder.startRecorder(
-      toFile: path,
-    ).then((value) => setState(() {
-  //    print(path);
-      widget.note.startTime.add(time);
-      widget.note.cnt++;
-    }));
+    widget.note.recorder
+        .startRecorder(
+          toFile: path,
+        )
+        .then((value) => setState(() {
+              //    print(path);
+              widget.note.startTime.add(time);
+              widget.note.cnt++;
+            }));
   }
 
   void stopRecord() {
     var time = DateTime.now().millisecondsSinceEpoch;
     widget.note.recorder.stopRecorder().then((value) => setState(() {
-      widget.note.isPlaybackReady = true;
-      widget.note.endTime.add(time);
-    }));
+          widget.note.isPlaybackReady = true;
+          widget.note.endTime.add(time);
+          widget.refresh();
+        }));
   }
 
-  void getRecorder(){
-    if(!widget.note.isRecorderInited || !widget.note.player.isStopped){
+  void getRecorder() {
+    if (!widget.note.isRecorderInited || !widget.note.player.isStopped) {
       return;
     }
     widget.note.recorder.isStopped ? startRecord() : stopRecord();
@@ -72,9 +80,9 @@ class _AudioRecordState extends State<AudioRecord> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return IconButton(
-        onPressed: getRecorder,
-        icon: Icon(widget.note.recorder.isRecording ? Icons.stop : Icons.circle),
-        color: widget.note.recorder.isRecording ? Colors.grey : Colors.red,
+      onPressed: getRecorder,
+      icon: Icon(widget.note.recorder.isRecording ? Icons.stop : Icons.circle),
+      color: widget.note.recorder.isRecording ? Colors.grey : Colors.red,
     );
   }
 }

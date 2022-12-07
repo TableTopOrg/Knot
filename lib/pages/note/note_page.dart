@@ -18,13 +18,28 @@ class FloatingNote extends StatefulWidget {
 }
 
 class _FloatingNoteState extends State<FloatingNote> {
+  int refreshToken = 0;
+
+  void refresh() {
+    setState(() {
+      refreshToken++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      drawer: AudioPlay(note: widget.note),
-      body: Stack(
-          children: [const NotePageBody(), AudioRecord(note: widget.note)]),
+      // drawer: AudioPlay(note: widget.note),
+      body: Stack(children: [
+        const NotePageBody(),
+        Align(
+            alignment: Alignment.topCenter,
+            child: AudioPlay(
+              note: widget.note,
+              refresh: refresh,
+            ))
+      ]),
     );
   }
 
@@ -44,33 +59,30 @@ class _FloatingNoteState extends State<FloatingNote> {
             Navigator.pop(context);
           },
           icon: SvgPicture.asset("assets/icons/back.svg")),
-        actions: <Widget>[
-    IconButton(
-    icon: Icon(Icons.search), 
-    onPressed: () {
-    // 아이콘 버튼 실행
-
-    Navigator.push(
-        context,
-    MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Home Page')),
-          );
-        },
-    color: Colors.grey,
-    ),
-          IconButton(
-            icon: Icon(Icons.headset_mic), 
-            onPressed: () {
-              // 아이콘 버튼 실행
-            
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SpeechSampleApp()),
-              );
-            },
-            color: Colors.grey,
-          )
-    ],
-
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(Icons.search),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      MyHomePage(title: 'Flutter Demo Home Page')),
+            );
+          },
+          color: Colors.grey,
+        ),
+        IconButton(
+          icon: Icon(Icons.headset_mic),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SpeechSampleApp()),
+            );
+          },
+          color: Colors.grey,
+        )
+      ],
     );
   }
 }

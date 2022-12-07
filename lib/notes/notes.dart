@@ -12,14 +12,13 @@ class Note {
   bool isRecorderInited;
   bool isPlaybackReady;
   var startTime = []; // 녹음 시작 시간
-  var endTime = [];   // 녹음 종료 시간
-  int cnt;         // 녹음 파일 번호
+  var endTime = []; // 녹음 종료 시간
+  int cnt; // 녹음 파일 번호
 
   Note({
     required this.title,
     required this.thumbnail,
     required this.time,
-
     this.isPlayerInited = false,
     this.isRecorderInited = false,
     this.isPlaybackReady = false,
