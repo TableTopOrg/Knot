@@ -3,10 +3,15 @@ import 'package:knot/pages/audio_record/audio_record.dart';
 import '../../notes/notes.dart';
 
 class AudioPlay extends StatefulWidget {
-  const AudioPlay({super.key, required this.note, required this.refresh});
+  const AudioPlay(
+      {super.key,
+      required this.note,
+      required this.refresh,
+      required this.progress});
 
   final Note note;
   final ValueChanged<int> refresh;
+  final double progress;
 
   @override
   State<AudioPlay> createState() => _AudioPlayState();
@@ -85,22 +90,57 @@ class _AudioPlayState extends State<AudioPlay> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        height: 40,
-        width: 300,
-        color: Colors.grey[300],
-        child: ListView.builder(
-            itemCount: widget.note.cnt,
-            itemBuilder: (BuildContext context, int index) {
-              return IconButton(
-                onPressed: () =>
-                    getPlayback('${widget.note.title}_$index.aac', index),
-                icon: Icon(!widget.note.isPlaybackReady
-                    ? Icons.stop
-                    : Icons.play_arrow),
-                color: !widget.note.isPlaybackReady ? Colors.grey : Colors.blue,
-              );
-            }),
+          height: 40,
+          width: 300,
+          color: Colors.grey[300],
+          child: Stack(
+            children: <Widget>[
+              Container(
+                color: Colors.grey[400],
+                width: 300 * widget.progress,
+              ),
+              ListView.builder(
+                  itemCount: widget.note.cnt,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Row(
+                      children: <Widget>[
+                        buildIndex(index),
+                        buildButton(index),
+                      ],
+                    );
+                  }),
+            ],
+          )),
+    );
+  }
+
+  SizedBox buildButton(int index) {
+    return SizedBox(
+      height: 40,
+      width: 40,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: IconButton(
+          onPressed: () =>
+              getPlayback('${widget.note.title}_$index.aac', index),
+          icon: Icon(
+              !widget.note.isPlaybackReady ? Icons.stop : Icons.play_arrow),
+          color: !widget.note.isPlaybackReady ? Colors.grey : Colors.black,
+        ),
       ),
+    );
+  }
+
+  SizedBox buildIndex(int index) {
+    return SizedBox(
+      height: 40,
+      width: 60,
+      child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            "${index + 1}.",
+            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+          )),
     );
   }
 }

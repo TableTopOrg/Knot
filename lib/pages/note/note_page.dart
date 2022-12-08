@@ -26,6 +26,7 @@ class _FloatingNoteState extends State<FloatingNote> {
 
   late Timer _timer;
   int timestamp = 0;
+  double progress = 0;
 
   void refresh(int index) {
     setState(() {
@@ -51,6 +52,10 @@ class _FloatingNoteState extends State<FloatingNote> {
         } else {
           setState(() {
             timestamp += 100;
+
+            progress = (timestamp - widget.note.startTime[playIndex]) /
+                (widget.note.endTime[playIndex] -
+                    widget.note.startTime[playIndex]);
           });
         }
       },
@@ -69,9 +74,7 @@ class _FloatingNoteState extends State<FloatingNote> {
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(
-              note: widget.note,
-              refresh: refresh,
-            ))
+                note: widget.note, refresh: refresh, progress: progress))
       ]),
     );
   }

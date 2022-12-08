@@ -51,7 +51,8 @@ class _NotePageBodyState extends State<NotePageBody> {
     } else {
       return [...liveLines, liveLine]
           .where((element) =>
-              element.endTime!.millisecondsSinceEpoch < widget.timestamp)
+              (element.endTime?.millisecondsSinceEpoch ?? widget.timestamp) <
+              widget.timestamp)
           .map((e) => e.line)
           .toList();
     }
