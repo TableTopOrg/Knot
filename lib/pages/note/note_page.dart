@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:knot/constants.dart';
@@ -19,11 +21,40 @@ class FloatingNote extends StatefulWidget {
 
 class _FloatingNoteState extends State<FloatingNote> {
   int refreshToken = 0;
+  int playIndex = 0;
+  int playStartTime = 0;
 
-  void refresh() {
+  late Timer _timer;
+  int timestamp = 0;
+
+  void refresh(int index) {
     setState(() {
       refreshToken++;
+      if (index != -1) {
+        playIndex = index;
+        timestamp = widget.note.startTime[index];
+        startTimer();
+      }
     });
+  }
+
+  void startTimer() {
+    const oneSec = Duration(milliseconds: 100);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (timestamp >= widget.note.endTime[playIndex]) {
+          setState(() {
+            timer.cancel();
+            timestamp = 0;
+          });
+        } else {
+          setState(() {
+            timestamp += 100;
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -32,7 +63,9 @@ class _FloatingNoteState extends State<FloatingNote> {
       appBar: buildAppBar(context),
       // drawer: AudioPlay(note: widget.note),
       body: Stack(children: [
-        const NotePageBody(),
+        NotePageBody(
+          timestamp: timestamp,
+        ),
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(

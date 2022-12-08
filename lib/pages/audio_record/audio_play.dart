@@ -6,7 +6,7 @@ class AudioPlay extends StatefulWidget {
   const AudioPlay({super.key, required this.note, required this.refresh});
 
   final Note note;
-  final VoidCallback refresh;
+  final ValueChanged<int> refresh;
 
   @override
   State<AudioPlay> createState() => _AudioPlayState();
@@ -15,14 +15,12 @@ class AudioPlay extends StatefulWidget {
 class _AudioPlayState extends State<AudioPlay> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initPlayer();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     widget.note.player.closePlayer();
   }
@@ -57,14 +55,14 @@ class _AudioPlayState extends State<AudioPlay> {
         }));
   }
 
-  void getPlayback(String path) {
+  void getPlayback(String path, int index) {
     if (!widget.note.isPlayerInited ||
         !widget.note.isPlaybackReady ||
         !widget.note.recorder.isStopped) {
       return;
     }
     widget.note.player.isStopped ? startPlay(path) : stopPlay();
-    widget.refresh();
+    widget.refresh(index);
   }
 
   @override
@@ -94,7 +92,8 @@ class _AudioPlayState extends State<AudioPlay> {
             itemCount: widget.note.cnt,
             itemBuilder: (BuildContext context, int index) {
               return IconButton(
-                onPressed: () => getPlayback('${widget.note.title}_$index.aac'),
+                onPressed: () =>
+                    getPlayback('${widget.note.title}_$index.aac', index),
                 icon: Icon(!widget.note.isPlaybackReady
                     ? Icons.stop
                     : Icons.play_arrow),

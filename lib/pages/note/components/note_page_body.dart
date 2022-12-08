@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:knot/pages/note/components/note_page_sketcher.dart';
 
 class NotePageBody extends StatefulWidget {
-  const NotePageBody({super.key});
+  const NotePageBody({super.key, required this.timestamp});
+
+  final int timestamp;
 
   @override
   State<NotePageBody> createState() => _NotePageBodyState();
@@ -43,6 +45,18 @@ class _NotePageBodyState extends State<NotePageBody> {
     });
   }
 
+  List<Line> getLinesUsingTimestamp(int timestamp) {
+    if (timestamp == 0) {
+      return [...liveLines.map((e) => e.line), liveLine.line];
+    } else {
+      return [...liveLines, liveLine]
+          .where((element) =>
+              element.endTime!.millisecondsSinceEpoch < widget.timestamp)
+          .map((e) => e.line)
+          .toList();
+    }
+  }
+
   GestureDetector buildGestureDetector(BuildContext buildContext) {
     return GestureDetector(
         onPanStart: handleDragStart,
@@ -53,10 +67,9 @@ class _NotePageBodyState extends State<NotePageBody> {
                 color: Colors.transparent,
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
-                child: CustomPaint(painter: Sketcher(
-                  lines: (() {
-                    return [...liveLines.map((e) => e.line), liveLine.line];
-                  })(),
+                child: CustomPaint(
+                    painter: Sketcher(
+                  lines: getLinesUsingTimestamp(widget.timestamp),
                 )))));
   }
 

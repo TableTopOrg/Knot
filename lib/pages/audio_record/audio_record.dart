@@ -12,7 +12,7 @@ class AudioRecord extends StatefulWidget {
       required this.refresh}); //{Key? key}) : super(key: key);
 
   final Note note;
-  final VoidCallback refresh;
+  final ValueChanged<int> refresh;
 
   @override
   State<AudioRecord> createState() => _AudioRecordState();
@@ -65,7 +65,7 @@ class _AudioRecordState extends State<AudioRecord> {
     widget.note.recorder.stopRecorder().then((value) => setState(() {
           widget.note.isPlaybackReady = true;
           widget.note.endTime.add(time);
-          widget.refresh();
+          widget.refresh(-1);
         }));
   }
 
