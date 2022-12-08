@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:knot/constants.dart';
 import 'package:knot/notes/notes.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
 import 'package:knot/pages/note/components/note_page_body.dart';
 import 'package:knot/pages/speech_to_text/audio_to_text.dart';
 import 'package:knot/pages/speech_to_text/realtime_speech_to_text.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
 import '../audio_record/audio_play.dart';
 
 class FloatingNote extends StatefulWidget {
@@ -28,8 +33,11 @@ class _FloatingNoteState extends State<FloatingNote> {
   int timestamp = 0;
   double progress = 0;
 
+  ScreenshotController screenshotController = ScreenshotController();
+
   void refresh(int index) {
     setState(() {
+      screenCapture();
       refreshToken++;
       if (index != -1) {
         playIndex = index;
@@ -50,11 +58,11 @@ class _FloatingNoteState extends State<FloatingNote> {
             timer.cancel();
             timestamp = 0;
             progress = 0;
+            screenCapture();
           });
         } else {
           setState(() {
             timestamp += 100;
-
             progress = (timestamp -
                     widget.note.startTime[playIndex].millisecondsSinceEpoch) /
                 (widget.note.endTime[playIndex].millisecondsSinceEpoch -
@@ -65,15 +73,30 @@ class _FloatingNoteState extends State<FloatingNote> {
     );
   }
 
+  void screenCapture() async {
+    final image = await screenshotController.capture();
+    if (image == null) return;
+
+    final directory = await getApplicationDocumentsDirectory();
+    File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
       // drawer: AudioPlay(note: widget.note),
       body: Stack(children: [
-        NotePageBody(
-          timestamp: timestamp,
-        ),
+        Screenshot(
+            child: NotePageBody(
+              timestamp: timestamp,
+            ),
+            controller: screenshotController),
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(
