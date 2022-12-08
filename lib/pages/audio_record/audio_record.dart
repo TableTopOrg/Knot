@@ -47,7 +47,6 @@ class _AudioRecordState extends State<AudioRecord> {
 
   void startRecord() {
     // 녹음 시 title_cnt.aac 파일 형태로 저장하고, cnt 증가시킴
-    var time = DateTime.now().millisecondsSinceEpoch; //DateTime.now();
     String path = '${widget.note.title}_${widget.note.cnt}.aac';
     widget.note.recorder
         .startRecorder(
@@ -55,16 +54,15 @@ class _AudioRecordState extends State<AudioRecord> {
         )
         .then((value) => setState(() {
               //    print(path);
-              widget.note.startTime.add(time);
+              widget.note.startTime.add(DateTime.now());
               widget.note.cnt++;
             }));
   }
 
   void stopRecord() {
-    var time = DateTime.now().millisecondsSinceEpoch;
     widget.note.recorder.stopRecorder().then((value) => setState(() {
           widget.note.isPlaybackReady = true;
-          widget.note.endTime.add(time);
+          widget.note.endTime.add(DateTime.now());
           widget.refresh(-1);
         }));
   }
@@ -78,7 +76,6 @@ class _AudioRecordState extends State<AudioRecord> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return IconButton(
       onPressed: getRecorder,
       icon: Icon(widget.note.recorder.isRecording ? Icons.stop : Icons.circle),

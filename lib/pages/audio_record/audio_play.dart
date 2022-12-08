@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
+import 'package:intl/intl.dart';
 import '../../notes/notes.dart';
 
 class AudioPlay extends StatefulWidget {
@@ -18,6 +19,11 @@ class AudioPlay extends StatefulWidget {
 }
 
 class _AudioPlayState extends State<AudioPlay> {
+  FixedExtentScrollController fixedExtentScrollController =
+      FixedExtentScrollController();
+
+  int selectedIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -99,18 +105,59 @@ class _AudioPlayState extends State<AudioPlay> {
                 color: Colors.grey[400],
                 width: 300 * widget.progress,
               ),
-              ListView.builder(
-                  itemCount: widget.note.cnt,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      children: <Widget>[
-                        buildIndex(index),
-                        buildButton(index),
-                      ],
-                    );
-                  }),
+              GestureDetector(
+                  child: ListWheelScrollView(
+                    itemExtent: 22,
+                    controller: fixedExtentScrollController,
+                    physics: const FixedExtentScrollPhysics(),
+                    onSelectedItemChanged: (index) => selectedIndex = index,
+                    children: widget.note.endTime
+                        .asMap()
+                        .entries
+                        .map(
+                          (e) =>
+                              // buildRow(e)
+                              buildTextBox(e),
+                        )
+                        .toList(),
+                  ),
+                  onTap: () => getPlayback(
+                        '${widget.note.title}_$selectedIndex.aac',
+                        selectedIndex,
+                      ))
             ],
           )),
+    );
+  }
+
+  Align buildTextBox(MapEntry<int, DateTime> e) {
+    return Align(
+        alignment: Alignment.center,
+        child: Text(
+          "${DateFormat('yyyy/MM/dd  kk:mm').format(widget.note.startTime[e.key])}-${DateFormat('kk:mm').format(widget.note.endTime[e.key])}",
+          style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 12,
+              color: Colors.grey[800]),
+        ));
+  }
+
+  Row buildRow(MapEntry<int, DateTime> e) {
+    return Row(
+      children: <Widget>[
+        SizedBox(
+          height: 40,
+          width: 200,
+          child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "${DateFormat('yyyy-MM-dd – kk:mm').format(widget.note.startTime[e.key])} - ${DateFormat('kk:mm').format(widget.note.endTime[e.key])}",
+                style:
+                    const TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+              )),
+        ),
+        // buildButton(e.key),
+      ],
     );
   }
 
@@ -128,19 +175,6 @@ class _AudioPlayState extends State<AudioPlay> {
           color: !widget.note.isPlaybackReady ? Colors.grey : Colors.black,
         ),
       ),
-    );
-  }
-
-  SizedBox buildIndex(int index) {
-    return SizedBox(
-      height: 40,
-      width: 60,
-      child: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "${index + 1}.",
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-          )),
     );
   }
 }

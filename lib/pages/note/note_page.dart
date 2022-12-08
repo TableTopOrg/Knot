@@ -33,7 +33,7 @@ class _FloatingNoteState extends State<FloatingNote> {
       refreshToken++;
       if (index != -1) {
         playIndex = index;
-        timestamp = widget.note.startTime[index];
+        timestamp = widget.note.startTime[index].millisecondsSinceEpoch;
         startTimer();
       }
     });
@@ -44,7 +44,8 @@ class _FloatingNoteState extends State<FloatingNote> {
     _timer = Timer.periodic(
       oneSec,
       (Timer timer) {
-        if (timestamp >= widget.note.endTime[playIndex]) {
+        if (timestamp >=
+            widget.note.endTime[playIndex].millisecondsSinceEpoch) {
           setState(() {
             timer.cancel();
             timestamp = 0;
@@ -54,9 +55,10 @@ class _FloatingNoteState extends State<FloatingNote> {
           setState(() {
             timestamp += 100;
 
-            progress = (timestamp - widget.note.startTime[playIndex]) /
-                (widget.note.endTime[playIndex] -
-                    widget.note.startTime[playIndex]);
+            progress = (timestamp -
+                    widget.note.startTime[playIndex].millisecondsSinceEpoch) /
+                (widget.note.endTime[playIndex].millisecondsSinceEpoch -
+                    widget.note.startTime[playIndex].millisecondsSinceEpoch);
           });
         }
       },
