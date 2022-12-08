@@ -1,10 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:knot/pages/note/components/note_page_sketcher.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:screenshot/screenshot.dart';
+
+import '../../../notes/notes.dart';
 
 class NotePageBody extends StatefulWidget {
-  const NotePageBody({super.key, required this.timestamp});
+  const NotePageBody(
+      {super.key,
+      required this.note,
+      required this.timestamp,
+      required this.screenshotController});
 
+  final Note note;
   final int timestamp;
+  final ScreenshotController screenshotController;
 
   @override
   State<NotePageBody> createState() => _NotePageBodyState();
@@ -17,6 +29,14 @@ class _NotePageBodyState extends State<NotePageBody> {
   double currWidth = 5.0;
   Color currColor = Colors.black;
   DateTime timeBar = DateTime.now();
+
+  void screenCapture() async {
+    final image = await widget.screenshotController.capture();
+    if (image == null) return;
+
+    final directory = await getApplicationDocumentsDirectory();
+    File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
+  }
 
   void handleDragStart(DragStartDetails dragStartDetails) {
     final box = context.findRenderObject() as RenderBox;
@@ -33,6 +53,7 @@ class _NotePageBodyState extends State<NotePageBody> {
       timeBar = liveLine.endTime = DateTime.now();
       liveLines.add(liveLine);
     });
+    screenCapture();
   }
 
   void handleDragUpdate(DragUpdateDetails dragUpdateDetails) {

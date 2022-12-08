@@ -37,7 +37,6 @@ class _FloatingNoteState extends State<FloatingNote> {
 
   void refresh(int index) {
     setState(() {
-      screenCapture();
       refreshToken++;
       if (index != -1) {
         playIndex = index;
@@ -58,7 +57,6 @@ class _FloatingNoteState extends State<FloatingNote> {
             timer.cancel();
             timestamp = 0;
             progress = 0;
-            screenCapture();
           });
         } else {
           setState(() {
@@ -71,14 +69,6 @@ class _FloatingNoteState extends State<FloatingNote> {
         }
       },
     );
-  }
-
-  void screenCapture() async {
-    final image = await screenshotController.capture();
-    if (image == null) return;
-
-    final directory = await getApplicationDocumentsDirectory();
-    File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
   }
 
   @override
@@ -94,8 +84,9 @@ class _FloatingNoteState extends State<FloatingNote> {
       body: Stack(children: [
         Screenshot(
             child: NotePageBody(
-              timestamp: timestamp,
-            ),
+                note: widget.note,
+                timestamp: timestamp,
+                screenshotController: screenshotController),
             controller: screenshotController),
         Align(
             alignment: Alignment.topCenter,

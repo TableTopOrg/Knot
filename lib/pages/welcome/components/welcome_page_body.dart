@@ -77,7 +77,7 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
                 .then((value) => refreshMain()),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.asset(note.thumbnail)),
+                child: Image.asset("assets/images/image_1.png")),
           );
         });
   }
