@@ -48,6 +48,7 @@ class _FloatingNoteState extends State<FloatingNote> {
           setState(() {
             timer.cancel();
             timestamp = 0;
+            progress = 0;
           });
         } else {
           setState(() {
