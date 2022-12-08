@@ -14,8 +14,16 @@ class WelcomPageBody extends StatefulWidget {
 }
 
 class _WelcomPageBodyState extends State<WelcomPageBody> {
+  int refreshTokenMain = 0;
+
   double noteWidthFactor = 0.4;
   late Future<Directory> documentPath;
+
+  void refreshMain() {
+    setState(() {
+      refreshTokenMain++;
+    });
+  }
 
   @override
   void initState() {
@@ -39,29 +47,34 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
     );
   }
 
-  FutureBuilder<Directory> buildThumbnail(Note note) {
-    return FutureBuilder<Directory>(
-        future: documentPath,
+  StreamBuilder<Directory> buildThumbnail(Note note) {
+    return StreamBuilder<Directory>(
+        stream: Stream.fromFuture(documentPath),
         builder: (BuildContext context, AsyncSnapshot<Directory> snapshot) {
+          if (snapshot.hasError) {}
           if (snapshot.hasData && snapshot.data != null) {
             if (File("${snapshot.data!.path}/${note.title}.png").existsSync()) {
               return GestureDetector(
                 onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FloatingNote(note: note))),
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FloatingNote(note: note)))
+                    .then((value) => {imageCache.clear()}),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(16),
                     child: Image.file(
-                        File("${snapshot.data!.path}/${note.title}.png"))),
+                      File("${snapshot.data!.path}/${note.title}.png"),
+                      key: UniqueKey(),
+                    )),
               );
             }
           }
           return GestureDetector(
             onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => FloatingNote(note: note))),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FloatingNote(note: note)))
+                .then((value) => refreshMain()),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
                 child: Image.asset(note.thumbnail)),
