@@ -30,6 +30,12 @@ class _NotePageBodyState extends State<NotePageBody> {
   Color currColor = Colors.black;
   DateTime timeBar = DateTime.now();
 
+  @override
+  void initState() {
+    loadNote();
+    super.initState();
+  }
+
   void screenCapture() async {
     final image = await widget.screenshotController.capture();
     if (image == null) return;
@@ -38,9 +44,25 @@ class _NotePageBodyState extends State<NotePageBody> {
     File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
   }
 
+  void loadNote() async {
+    final directory = await getApplicationDocumentsDirectory();
+    if (!File('${directory.path}/${widget.note.title}.json').existsSync()) {
+      return;
+    }
+    String readJson = await File('${directory.path}/${widget.note.title}.json')
+        .readAsString();
+    List<dynamic> readMap = jsonDecode(readJson);
+    setState(() {
+      readMap.forEach((e) {
+        liveLines.add(LiveLine.fromJson(e));
+      });
+    });
+  }
+
   void saveNote() async {
     final directory = await getApplicationDocumentsDirectory();
-    File('${directory.path}/${widget.note.title}.json');
+    final saveJson = jsonEncode([...liveLines, liveLine]);
+    File('${directory.path}/${widget.note.title}.json').writeAsString(saveJson);
   }
 
   void handleDragStart(DragStartDetails dragStartDetails) {
@@ -58,6 +80,7 @@ class _NotePageBodyState extends State<NotePageBody> {
       timeBar = liveLine.endTime = DateTime.now();
       liveLines.add(liveLine);
     });
+    saveNote();
     screenCapture();
   }
 

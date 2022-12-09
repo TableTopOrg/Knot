@@ -1,11 +1,28 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class Line {
   Line(this.path, this.color, this.width);
 
-  List<Offset> path;
-  Color color;
-  double width;
+  List<Offset> path = <Offset>[];
+  Color color = Colors.redAccent;
+  double width = 5.0;
+
+  Line.fromString(String jsonString) {
+    List<dynamic> readJson = jsonDecode(jsonString);
+    path = <Offset>[];
+    readJson.forEach((e) {
+      path.add(Offset(e[0], e[1]));
+    });
+    color = Colors.redAccent;
+    width = 5.0;
+  }
+
+  String offsetToJson() {
+    final offsetString = path.map((e) => [e.dx, e.dy]).toList();
+    return json.encode(offsetString);
+  }
 }
 
 class LiveLine {
@@ -13,6 +30,20 @@ class LiveLine {
 
   Line line = Line(<Offset>[], Colors.black, 5.0);
   DateTime? startTime, endTime;
+
+  LiveLine.fromJson(Map json) {
+    line = Line.fromString(json["line"]);
+    startTime = DateTime.fromMillisecondsSinceEpoch(json["startTime"]);
+    endTime = DateTime.fromMillisecondsSinceEpoch(json["endTime"]);
+  }
+
+  Map toJson() {
+    return {
+      "line": line.offsetToJson(),
+      "startTime": startTime?.millisecondsSinceEpoch,
+      "endTime": endTime?.millisecondsSinceEpoch,
+    };
+  }
 }
 
 class Sketcher extends CustomPainter {
