@@ -37,12 +37,19 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
       color: backgroundColorLight,
       child: GridView.count(
           primary: false,
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
           crossAxisCount: 2,
           mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
           children: notes.map(((note) {
-            return buildThumbnail(note);
+            return Column(children: [
+              Expanded(
+                child: buildThumbnail(note),
+              ),
+              Container(
+                margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Text(note.title),
+              )
+            ]);
           })).toList()),
     );
   }
@@ -54,30 +61,43 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
           if (snapshot.hasError) {}
           if (snapshot.hasData && snapshot.data != null) {
             if (File("${snapshot.data!.path}/${note.title}.png").existsSync()) {
-              return GestureDetector(
+              return AspectRatio(
+                aspectRatio: 1,
+                child: SizedBox(
+                  width: double.infinity,
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FloatingNote(note: note)))
+                        .then((value) => {imageCache.clear()}),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.file(
+                          File("${snapshot.data!.path}/${note.title}.png"),
+                          key: UniqueKey(),
+                          fit: BoxFit.fitWidth,
+                        )),
+                  ),
+                ),
+              );
+            }
+          }
+          return AspectRatio(
+            aspectRatio: 1,
+            child: SizedBox(
+              width: double.infinity,
+              child: GestureDetector(
                 onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => FloatingNote(note: note)))
-                    .then((value) => {imageCache.clear()}),
+                    .then((value) => refreshMain()),
                 child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.file(
-                      File("${snapshot.data!.path}/${note.title}.png"),
-                      key: UniqueKey(),
-                    )),
-              );
-            }
-          }
-          return GestureDetector(
-            onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => FloatingNote(note: note)))
-                .then((value) => refreshMain()),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset("assets/images/image_1.png")),
+                    borderRadius: BorderRadius.circular(8),
+                    child: Image.asset("assets/images/image_1.png")),
+              ),
+            ),
           );
         });
   }

@@ -80,14 +80,13 @@ class _FloatingNoteState extends State<FloatingNote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context),
-      // drawer: AudioPlay(note: widget.note),
       body: Stack(children: [
         Screenshot(
+            controller: screenshotController,
             child: NotePageBody(
                 note: widget.note,
                 timestamp: timestamp,
-                screenshotController: screenshotController),
-            controller: screenshotController),
+                screenshotController: screenshotController)),
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(

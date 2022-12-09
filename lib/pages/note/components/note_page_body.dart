@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:knot/pages/note/components/note_page_sketcher.dart';
 import 'package:path_provider/path_provider.dart';
@@ -36,6 +36,11 @@ class _NotePageBodyState extends State<NotePageBody> {
 
     final directory = await getApplicationDocumentsDirectory();
     File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
+  }
+
+  void saveNote() async {
+    final directory = await getApplicationDocumentsDirectory();
+    File('${directory.path}/${widget.note.title}.json');
   }
 
   void handleDragStart(DragStartDetails dragStartDetails) {
