@@ -14,6 +14,7 @@ import 'package:knot/pages/speech_to_text/realtime_speech_to_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../audio_record/audio_play.dart';
+import '../speech_to_text/speech_to_text_half.dart';
 
 class FloatingNote extends StatefulWidget {
   const FloatingNote({super.key, required this.note});
@@ -90,7 +91,8 @@ class _FloatingNoteState extends State<FloatingNote> {
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(
-                note: widget.note, refresh: refresh, progress: progress))
+                note: widget.note, refresh: refresh, progress: progress)),
+        Align(alignment: Alignment.bottomCenter, child: SpeechToTextHalf())
       ]),
     );
   }
@@ -111,30 +113,6 @@ class _FloatingNoteState extends State<FloatingNote> {
             Navigator.pop(context);
           },
           icon: SvgPicture.asset("assets/icons/back.svg")),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      MyHomePage(title: 'Flutter Demo Home Page')),
-            );
-          },
-          color: Colors.grey,
-        ),
-        IconButton(
-          icon: Icon(Icons.headset_mic),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SpeechSampleApp()),
-            );
-          },
-          color: Colors.grey,
-        )
-      ],
     );
   }
 }
