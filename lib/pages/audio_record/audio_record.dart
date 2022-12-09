@@ -5,6 +5,10 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../constants.dart';
 import '../../notes/notes.dart';
 
+import 'dart:io';
+import 'dart:convert';
+import 'package:path_provider/path_provider.dart';
+
 class AudioRecord extends StatefulWidget {
   const AudioRecord(
       {super.key,
@@ -30,6 +34,7 @@ class _AudioRecordState extends State<AudioRecord> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    saveNoteList();   // 앱 종료될 때 note 저장
     widget.note.recorder.closeRecorder();
   }
 
@@ -65,6 +70,16 @@ class _AudioRecordState extends State<AudioRecord> {
           widget.note.endTime.add(DateTime.now());
           widget.refresh(-1);
         }));
+  }
+
+  /* Note들 json 변환하여 저장 */
+  void saveNoteList() async {
+    final directory = await getApplicationDocumentsDirectory();
+
+    for(int i=0; i<notes.length; i++){
+      Map<String, dynamic> json = notes[i].toJson();
+      File('${directory.path}/note_$i.json').writeAsString(jsonEncode(json));
+    }
   }
 
   void getRecorder() {
