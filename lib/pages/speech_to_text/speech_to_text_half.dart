@@ -60,14 +60,16 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
   }
 
   void _startListening() async {
-    await _speechToText.listen(
-        //localeId: "ko_KR",
-        onResult: _onSpeechResult,
-        listenFor: const Duration(seconds: 60),
-        partialResults: true,
-        cancelOnError: true,
-        onDevice: true,
-        listenMode: ListenMode.confirmation);
+    if (_speechEnabled) {
+      await _speechToText.listen(
+          //localeId: "ko_KR",
+          onResult: _onSpeechResult,
+          listenFor: const Duration(seconds: 60),
+          partialResults: true,
+          cancelOnError: true,
+          onDevice: true,
+          listenMode: ListenMode.confirmation);
+    }
 
     setState(() {});
   }
