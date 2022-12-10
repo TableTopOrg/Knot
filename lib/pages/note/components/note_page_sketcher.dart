@@ -30,11 +30,13 @@ class LiveLine {
 
   Line line = Line(<Offset>[], Colors.black, 5.0);
   DateTime? startTime, endTime;
+  double? scrollPosition;
 
   LiveLine.fromJson(Map json) {
     line = Line.fromString(json["line"]);
     startTime = DateTime.fromMillisecondsSinceEpoch(json["startTime"]);
     endTime = DateTime.fromMillisecondsSinceEpoch(json["endTime"]);
+    scrollPosition = json["scrollPosition"];
   }
 
   Map toJson() {
@@ -42,14 +44,16 @@ class LiveLine {
       "line": line.offsetToJson(),
       "startTime": startTime?.millisecondsSinceEpoch,
       "endTime": endTime?.millisecondsSinceEpoch,
+      "scrollPosition": scrollPosition
     };
   }
 }
 
 class Sketcher extends CustomPainter {
   final List<Line> lines;
+  final Listenable repaint;
 
-  Sketcher({required this.lines});
+  Sketcher({required this.lines, required this.repaint});
 
   @override
   void paint(Canvas canvas, Size size) {

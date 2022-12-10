@@ -5,7 +5,9 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class SpeechToTextHalf extends StatefulWidget {
-  const SpeechToTextHalf({super.key});
+  const SpeechToTextHalf({super.key, required this.sharedString});
+
+  final List<String> sharedString;
 
   @override
   State<SpeechToTextHalf> createState() => _SpeechToTextHalfState();
@@ -41,7 +43,10 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
       oneSec,
       (Timer timer) {
         if (_speechToText.isNotListening) {
-          if (_lastWords != "") lastWords.add(_lastWords);
+          if (_lastWords != "") {
+            widget.sharedString.add(_lastWords);
+            lastWords.add(_lastWords);
+          }
           _lastWords = "";
           _startListening();
         }
@@ -82,25 +87,37 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 400,
-      child: ListView(reverse: true, children: <Widget>[
-        ...lastWords
-            .map((e) => Text(
-                  e,
-                  style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ))
-            .toList(),
-        Text(
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Text(
           _lastWords == "" ? "Recognizing English(for test)..." : _lastWords,
           style: TextStyle(
               color: Colors.grey[700],
               fontSize: 18,
               fontWeight: FontWeight.w500),
         ),
-      ]),
+      ),
+      // child: buildSTTlist(),
     );
+  }
+
+  ListView buildSTTlist() {
+    return ListView(reverse: true, children: <Widget>[
+      ...lastWords
+          .map((e) => Text(
+                e,
+                style: TextStyle(
+                    color: Colors.grey[500],
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500),
+              ))
+          .toList(),
+      Text(
+        _lastWords == "" ? "Recognizing English(for test)..." : _lastWords,
+        style: TextStyle(
+            color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),
+      ),
+    ]);
   }
   // @override
   // Widget build(BuildContext context) {

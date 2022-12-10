@@ -36,6 +36,21 @@ class _FloatingNoteState extends State<FloatingNote> {
 
   ScreenshotController screenshotController = ScreenshotController();
 
+  List<String> sharedWords = <String>[
+    "aaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbb",
+    "ccccccccccccccc",
+    "aaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbb",
+    "ccccccccccccccc",
+    "aaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbb",
+    "ccccccccccccccc",
+    "aaaaaaaaaaaaaaaaaa",
+    "bbbbbbbbbbbbbbbb",
+    "ccccccccccccccc",
+  ];
+
   void refresh(int index) {
     setState(() {
       refreshToken++;
@@ -87,12 +102,17 @@ class _FloatingNoteState extends State<FloatingNote> {
             child: NotePageBody(
                 note: widget.note,
                 timestamp: timestamp,
-                screenshotController: screenshotController)),
+                screenshotController: screenshotController,
+                sharedString: sharedWords)),
         Align(
             alignment: Alignment.topCenter,
             child: AudioPlay(
                 note: widget.note, refresh: refresh, progress: progress)),
-        Align(alignment: Alignment.bottomCenter, child: SpeechToTextHalf())
+        Align(
+            alignment: Alignment.bottomCenter,
+            child: SpeechToTextHalf(
+              sharedString: sharedWords,
+            ))
       ]),
     );
   }
