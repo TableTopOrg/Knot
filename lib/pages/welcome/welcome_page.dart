@@ -29,16 +29,12 @@ class WelcomePage extends StatelessWidget {
             .headline4
             ?.copyWith(color: textColorLight, fontWeight: FontWeight.bold),
       ),
-
       actions: <Widget>[
         IconButton(
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AddNote())
-                );
-   /*         Scaffold(
+                context, MaterialPageRoute(builder: (context) => AddNote()));
+            /*         Scaffold(
               appBar: buildAppBar(context),
               body: AddNote(),
             );*/
@@ -46,14 +42,6 @@ class WelcomePage extends StatelessWidget {
           icon: const Icon(Icons.add),
           color: textColorLight,
         ),
-
-        IconButton(
-            onPressed: () {},
-            icon: const FaIcon(
-              FontAwesomeIcons.gear,
-              color: textColorLight,
-            )),
-        const SizedBox(width: 10)
       ],
     );
   }

@@ -31,6 +31,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
   @override
   void dispose() {
     _timer.cancel();
+    if (_speechToText.isListening) _speechToText.stop();
     super.dispose();
   }
 

@@ -23,57 +23,55 @@ class _AddNoteState extends State<AddNote> {
     String title = "", thumbnail;
     int time;
 
-    /* Title 입력 */
-    var _titleTextField = CupertinoTextField(
-      controller: _titleEditController,
-      placeholder: "Enter the Title of Note",
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
+    return Container(
         color: Colors.white,
-        border: Border.all(
-          color: Colors.white,
-          width: 0.5,
-        ),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      onChanged: (text){
-        title = text;
-      },
-    );
+        //  width: 300,
+        child: Column(
+          children: [
+            const SizedBox(height: 100),
+            Container(
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+              child: CupertinoTextField(
+                controller: _titleEditController,
+                placeholder: "Enter the Title of Note",
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 0.5,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                onChanged: (text) {
+                  title = text;
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            CupertinoButton(
+              child: const Text("Ok"),
+              onPressed: () {
+                int imageNum = (notes.length + 1) % 3;
+                if (imageNum == 0) {
+                  imageNum = 3;
+                }
+                thumbnail = "assets/images/image_$imageNum.png";
+                Note n =
+                    Note(title: title, thumbnail: thumbnail, time: getDate());
 
-    /* 확인 button 눌러 note 생성 */
-    var _confirmButton = CupertinoButton(
-      child: Text("확인"),
-      onPressed: (){
-        int imageNum = (notes.length + 1) % 3;
-        if(imageNum == 0) {
-          imageNum = 3;
-        }
-        thumbnail = "assets/images/image_$imageNum.png";
-        Note n = Note(title: title, thumbnail: thumbnail, time: getDate());
+                notes.add(n);
+                saveNoteList();
 
-        notes.add(n);
-        saveNoteList();
-
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => const WelcomePage())
-        );
-      },
-    );
-
-    return SizedBox(
-    //  width: 300,
-      child : Column(
-        children: [
-          const SizedBox(height: 100),
-          _titleTextField,
-          const SizedBox(height: 20),
-          _confirmButton,
-        ],
-      )
-    );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const WelcomePage()));
+                // Navigator.pop(context);
+              },
+            ),
+          ],
+        ));
   }
 
   @override
