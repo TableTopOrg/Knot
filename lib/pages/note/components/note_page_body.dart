@@ -122,15 +122,7 @@ class _NotePageBodyState extends State<NotePageBody> {
             (element.endTime?.millisecondsSinceEpoch ?? widget.timestamp) <
             widget.timestamp);
 
-    return filterdLines.map((e) {
-      Line offsetLine = Line(
-          e.line.path
-              .map((l) => l.translate(0, -_customController.offset))
-              .toList(),
-          Colors.red,
-          5);
-      return offsetLine;
-    }).toList();
+    return filterdLines.map((e) => e.line).toList();
   }
 
   Container buildGestureDetector(BuildContext buildContext) {
@@ -150,7 +142,8 @@ class _NotePageBodyState extends State<NotePageBody> {
                       CustomPaint(
                           painter: Sketcher(
                               lines: getLinesUsingTimestamp(widget.timestamp),
-                              repaint: _counterRepaint)),
+                              repaint: _counterRepaint,
+                              scrollPostion: _customController.offset)),
                     ],
                   )))),
     );

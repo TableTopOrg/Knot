@@ -52,8 +52,12 @@ class LiveLine {
 class Sketcher extends CustomPainter {
   final List<Line> lines;
   final Listenable repaint;
+  double scrollPostion;
 
-  Sketcher({required this.lines, required this.repaint});
+  Sketcher(
+      {required this.lines,
+      required this.repaint,
+      required this.scrollPostion});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -61,7 +65,7 @@ class Sketcher extends CustomPainter {
       ..color = Colors.redAccent
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 5.0;
-
+    canvas.translate(0, -scrollPostion);
     for (int i = 0; i < lines.length; ++i) {
       for (int j = 0; j < lines[i].path.length - 1; ++j) {
         paint.strokeWidth = lines[i].width;
