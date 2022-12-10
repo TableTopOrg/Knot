@@ -143,7 +143,9 @@ class _NotePageBodyState extends State<NotePageBody> {
                           painter: Sketcher(
                               lines: getLinesUsingTimestamp(widget.timestamp),
                               repaint: _counterRepaint,
-                              scrollPostion: _customController.offset)),
+                              scrollPostion: _customController.hasClients
+                                  ? _customController.offset
+                                  : 0)),
                     ],
                   )))),
     );
