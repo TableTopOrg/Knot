@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
@@ -53,6 +54,7 @@ class Note {
 }
 
 List<Note> notes = [
+  /*
   Note(
       title: "Parallel programing",
       thumbnail: "assets/images/image_1.png",
@@ -65,4 +67,5 @@ List<Note> notes = [
       title: "Android programing",
       thumbnail: "assets/images/image_3.png",
       time: 20211011)
+   */
 ];

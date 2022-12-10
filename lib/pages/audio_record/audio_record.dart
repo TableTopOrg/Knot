@@ -73,14 +73,14 @@ class _AudioRecordState extends State<AudioRecord> {
   }
 
   /* Note들 json 변환하여 저장 */
-  void saveNoteList() async {
+ /* void saveNoteList() async {
     final directory = await getApplicationDocumentsDirectory();
 
     for(int i=0; i<notes.length; i++){
       Map<String, dynamic> json = notes[i].toJson();
       File('${directory.path}/note_$i.json').writeAsString(jsonEncode(json));
     }
-  }
+  }*/
 
   void getRecorder() {
     if (!widget.note.isRecorderInited || !widget.note.player.isStopped) {
@@ -96,5 +96,15 @@ class _AudioRecordState extends State<AudioRecord> {
       icon: Icon(widget.note.recorder.isRecording ? Icons.stop : Icons.circle),
       color: widget.note.recorder.isRecording ? Colors.grey : Colors.red,
     );
+  }
+}
+
+/* Note들 json 변환하여 저장 */
+void saveNoteList() async {
+  final directory = await getApplicationDocumentsDirectory();
+
+  for(int i=0; i<notes.length; i++){
+    Map<String, dynamic> json = notes[i].toJson();
+    File('${directory.path}/note_$i.json').writeAsString(jsonEncode(json));
   }
 }
