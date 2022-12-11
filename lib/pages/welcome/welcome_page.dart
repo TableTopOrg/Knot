@@ -45,11 +45,18 @@ class WelcomePage extends StatelessWidget {
           color: textColorLight,
         ),
         IconButton(onPressed: () {
+          uploadFile();
 
           },
           icon: const Icon(Icons.upload),
           color: textColorLight,
-        )
+        ),
+        IconButton(onPressed: () {
+          downloadFile();
+        },
+          icon: const Icon(Icons.download),
+          color: textColorLight,
+        ),
       ],
     );
   }
