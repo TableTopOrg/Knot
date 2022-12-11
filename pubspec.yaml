@@ -52,6 +52,7 @@ dependencies:
   path_provider: ^2.0.11
   image_gallery_saver: ^1.7.1
   draggable_scrollbar: ^0.1.0
+  file_picker: ^5.2.3
 
 dev_dependencies:
   flutter_test:
