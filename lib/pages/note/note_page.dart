@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -17,9 +18,10 @@ import '../audio_record/audio_play.dart';
 import '../speech_to_text/speech_to_text_half.dart';
 
 class FloatingNote extends StatefulWidget {
-  const FloatingNote({super.key, required this.note});
+  const FloatingNote({super.key, required this.note, required this.notes});
 
   final Note note;
+  final List<Note> notes;
 
   @override
   State<FloatingNote> createState() => _FloatingNoteState();
@@ -36,20 +38,18 @@ class _FloatingNoteState extends State<FloatingNote> {
 
   ScreenshotController screenshotController = ScreenshotController();
 
-  List<String> sharedWords = <String>[
-    "aaaaaaaaaaaaaaaaaa",
-    "bbbbbbbbbbbbbbbb",
-    "ccccccccccccccc",
-    "aaaaaaaaaaaaaaaaaa",
-    "bbbbbbbbbbbbbbbb",
-    "ccccccccccccccc",
-    "aaaaaaaaaaaaaaaaaa",
-    "bbbbbbbbbbbbbbbb",
-    "ccccccccccccccc",
-    "aaaaaaaaaaaaaaaaaa",
-    "bbbbbbbbbbbbbbbb",
-    "ccccccccccccccc",
-  ];
+  List<String> sharedWords = <String>[];
+
+  @override
+  void initState() {
+    int index = 0, foundIndex = 0;
+    widget.notes.forEach((element) {
+      if (element.title == widget.note.title) foundIndex = index;
+      index++;
+    });
+    sharedWords = widget.notes[foundIndex].sttStrings;
+    super.initState();
+  }
 
   void refresh(int index) {
     setState(() {
@@ -89,6 +89,12 @@ class _FloatingNoteState extends State<FloatingNote> {
 
   @override
   void dispose() {
+    int index = 0, foundIndex = 0;
+    widget.notes.forEach((element) {
+      if (element.title == widget.note.title) foundIndex = index;
+      index++;
+    });
+    widget.notes[foundIndex].sttStrings = sharedWords;
     super.dispose();
   }
 
@@ -111,7 +117,9 @@ class _FloatingNoteState extends State<FloatingNote> {
         Align(
             alignment: Alignment.bottomCenter,
             child: SpeechToTextHalf(
+              note: widget.note,
               sharedString: sharedWords,
+              refresh: refresh,
             ))
       ]),
     );

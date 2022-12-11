@@ -4,8 +4,8 @@ import 'package:flutter_sound/public/flutter_sound_player.dart';
 import 'package:flutter_sound/public/flutter_sound_recorder.dart';
 
 class Note {
-  /*final */late String title, thumbnail;
-  /*final */late int time;
+  /*final */ late String title, thumbnail;
+  /*final */ late int time;
 
   late FlutterSoundPlayer player = FlutterSoundPlayer();
   late FlutterSoundRecorder recorder = FlutterSoundRecorder();
@@ -20,6 +20,8 @@ class Note {
   List<String> tmp1 = [];
   List<String> tmp2 = [];
 
+  List<String> sttStrings = [];
+
   Note({
     required this.title,
     required this.thumbnail,
@@ -31,11 +33,14 @@ class Note {
   });
 
   Note.fromJson(Map<String, dynamic> json)
-    : title = json['title'],
-      tmp1 = List<String>.from(json['startTime']),
-      tmp2 = List<String>.from(json['endTime']),
-      cnt = json['cnt'];
-      /* DateTime으로 변환시 오류
+      : title = json['title'],
+        tmp1 = List<String>.from(json['startTime']),
+        tmp2 = List<String>.from(json['endTime']),
+        cnt = json['cnt'],
+        sttStrings = json['sttStrings'] != null
+            ? List<String>.from(json['sttStrings'])
+            : [];
+  /* DateTime으로 변환시 오류
       startTime = List<DateTime>.from(Datetime.parse(json['startTime'].toString()),
       endTime = List<DateTime>.from(json['endTime']);
       */
@@ -49,6 +54,7 @@ class Note {
       'startTime': startTime,
       'endTime': endTime,
       'cnt': cnt,
+      'sttStrings': sttStrings.toList(),
     };
   }
 }

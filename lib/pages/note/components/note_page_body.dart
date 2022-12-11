@@ -159,9 +159,10 @@ class _NotePageBodyState extends State<NotePageBody> {
         children: [
           ListView(
             controller: _customController,
+            padding: EdgeInsets.fromLTRB(0, 40, 0, 0),
             children: widget.sharedString
                 .map((e) => Container(
-                    height: 100,
+                    padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
                     child: Text(
                       e,
                       style: TextStyle(fontSize: 20),

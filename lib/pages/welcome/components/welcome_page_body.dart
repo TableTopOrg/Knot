@@ -36,16 +36,17 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
   /* Note 불러오는 함수 */
   void loadNoteList() async {
     final directory = await getApplicationDocumentsDirectory();
-    for (int i = 0; ; i++) {
+    for (int i = 0;; i++) {
       if (!File('${directory.path}/note_$i.json').existsSync()) {
         return;
       }
 
-      if(i == 0) {
+      if (i == 0) {
         notes.clear();
       }
 
-      String readJson = await File('${directory.path}/note_$i.json').readAsString();
+      String readJson =
+          await File('${directory.path}/note_$i.json').readAsString();
       dynamic json = jsonDecode(readJson);
       Note n = Note.fromJson(json);
       n.startTime.clear();
@@ -76,7 +77,7 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
           children: notes.map(((note) {
             return Column(children: [
               Expanded(
-                child: buildThumbnail(note),
+                child: buildThumbnail(note, notes),
               ),
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -87,7 +88,7 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
     );
   }
 
-  StreamBuilder<Directory> buildThumbnail(Note note) {
+  StreamBuilder<Directory> buildThumbnail(Note note, List<Note> notes) {
     return StreamBuilder<Directory>(
         stream: Stream.fromFuture(documentPath),
         builder: (BuildContext context, AsyncSnapshot<Directory> snapshot) {
@@ -102,7 +103,8 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
                     onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FloatingNote(note: note)))
+                                builder: (context) =>
+                                    FloatingNote(note: note, notes: notes)))
                         .then((value) => {imageCache.clear()}),
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
@@ -122,10 +124,12 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
               width: double.infinity,
               child: GestureDetector(
                 onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => FloatingNote(note: note)))
-                    .then((value) => refreshMain()),
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => FloatingNote(
+                              note: note,
+                              notes: notes,
+                            ))).then((value) => refreshMain()),
                 child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset("assets/images/image_1.png")),

@@ -1,13 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:knot/notes/notes.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 class SpeechToTextHalf extends StatefulWidget {
-  const SpeechToTextHalf({super.key, required this.sharedString});
+  const SpeechToTextHalf(
+      {super.key,
+      required this.sharedString,
+      required this.refresh,
+      required this.note});
 
+  final Note note;
   final List<String> sharedString;
+  final ValueChanged<int> refresh;
 
   @override
   State<SpeechToTextHalf> createState() => _SpeechToTextHalfState();
@@ -46,6 +53,8 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
           if (_lastWords != "") {
             widget.sharedString.add(_lastWords);
             lastWords.add(_lastWords);
+            widget.note.sttStrings = widget.sharedString;
+            widget.refresh(-1);
           }
           _lastWords = "";
           _startListening();
@@ -91,12 +100,29 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
       height: 400,
       child: Align(
         alignment: Alignment.bottomLeft,
-        child: Text(
-          _lastWords == "" ? "Recognizing English(for test)..." : _lastWords,
-          style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 18,
-              fontWeight: FontWeight.w500),
+        child: Container(
+          padding: EdgeInsets.all(10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              color: Colors.grey[200],
+              width: 600,
+              height: 40,
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  _lastWords == ""
+                      ? "Recognizing English(for test)..."
+                      : _lastWords,
+                  style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
       // child: buildSTTlist(),
