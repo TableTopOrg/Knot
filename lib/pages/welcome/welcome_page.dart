@@ -12,6 +12,8 @@ import '../../notes/add_note_page.dart';
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,18 +47,22 @@ class WelcomePage extends StatelessWidget {
           color: textColorLight,
         ),
         IconButton(onPressed: () {
-          uploadFile();
+            Navigator.push(
+              context, MaterialPageRoute(builder: (context) => MainPage()));
 
           },
           icon: const Icon(Icons.upload),
           color: textColorLight,
         ),
-        IconButton(onPressed: () {
-          downloadFile();
-        },
-          icon: const Icon(Icons.download),
+        IconButton(onPressed: (){
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
+
+
+        }, icon: const Icon(Icons.download),
           color: textColorLight,
         ),
+
       ],
     );
   }
