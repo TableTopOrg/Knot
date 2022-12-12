@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:knot/constants.dart';
+import 'package:knot/firebase_options.dart';
 import 'package:knot/notes/notes.dart';
 import 'package:knot/pages/welcome/components/welcome_page_body.dart';
 import 'package:knot/upload_Json.dart';
@@ -11,6 +13,13 @@ import '../../notes/add_note_page.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
+
+  Future<void> initializeDefault() async{
+    FirebaseApp app = await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print("Initialized default app $app");
+  }
 
 
 
@@ -46,6 +55,8 @@ class WelcomePage extends StatelessWidget {
           icon: const Icon(Icons.add),
           color: textColorLight,
         ),
+        IconButton(onPressed: initializeDefault, icon: const Icon(Icons.cloud),color: textColorLight,),
+
         IconButton(onPressed: () {
             Navigator.push(
               context, MaterialPageRoute(builder: (context) => MainPage()));
