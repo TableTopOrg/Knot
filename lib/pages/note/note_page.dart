@@ -129,6 +129,17 @@ class _FloatingNoteState extends State<FloatingNote> {
     return AppBar(
       backgroundColor: Colors.white,
       elevation: 0,
+      actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              sharedWords.add("시연을 위한 예시 문장입니다.");
+            });
+          },
+          icon: const Icon(Icons.add),
+          color: textColorLight,
+        ),
+      ],
       title: Text(
         widget.note.title,
         style: Theme.of(context)
