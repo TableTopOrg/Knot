@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "343037176397",
+    "firebase_url": "https://knot-371113-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "knot-371113",
+    "storage_bucket": "knot-371113.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343037176397:android:133fe9428d5a2760194a04",
+        "android_client_info": {
+          "package_name": "com.example.knot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343037176397-6u877soqsd1ti6s695n0qg275uaf8gb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCETZpeD9vix5oHJDZQI6VEtoDbEHzYx_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343037176397-6u877soqsd1ti6s695n0qg275uaf8gb2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "343037176397-q1s3inshdi8d7ogk4gmmiak2tnnk1mja.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.knot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

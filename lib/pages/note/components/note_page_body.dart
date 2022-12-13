@@ -57,7 +57,7 @@ class _NotePageBodyState extends State<NotePageBody> {
     if (image == null) return;
 
     final directory = await getApplicationDocumentsDirectory();
-    File('${directory.path}/${widget.note.title}.png').writeAsBytes(image);
+    File('${directory.path}/${widget.note.title}.png').writeAsBytesSync(image);
   }
 
   void loadNote() async {

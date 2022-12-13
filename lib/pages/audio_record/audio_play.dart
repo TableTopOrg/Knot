@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../notes/notes.dart';
 
 class AudioPlay extends StatefulWidget {
@@ -44,20 +47,23 @@ class _AudioPlayState extends State<AudioPlay> {
   }
 
   /* path: 'n.aac' 파일 실행 */
-  void startPlay(String path) {
+  void startPlay(String path) async {
     assert(widget.note.isPlayerInited &&
         widget.note.isPlaybackReady &&
         widget.note.recorder.isStopped &&
         widget.note.player.isStopped);
-    widget.note.isPlaybackReady = false;
 
     // Playing
-    widget.note.player.startPlayer(
-      fromURI: path,
-      whenFinished: () => setState(() {
-        widget.note.isPlaybackReady = true;
-      }),
-    );
+    final directory = (await getApplicationDocumentsDirectory()).path;
+    if (File("$directory/$path").existsSync()) {
+      widget.note.isPlaybackReady = false;
+      widget.note.player.startPlayer(
+        fromURI: "$directory/$path",
+        whenFinished: () => setState(() {
+          widget.note.isPlaybackReady = true;
+        }),
+      );
+    }
   }
 
   void stopPlay() {

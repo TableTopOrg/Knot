@@ -44,44 +44,44 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBfd8-coguafpQvbzIeQS6P0SfZHdcQK-k',
-    appId: '1:333792263271:web:d90714b7806bc32f6d68c2',
-    messagingSenderId: '333792263271',
-    projectId: 'cse4186-ff4e8',
-    authDomain: 'cse4186-ff4e8.firebaseapp.com',
-    databaseURL: 'https://cse4186-ff4e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'cse4186-ff4e8.appspot.com',
-    measurementId: 'G-98ZGJF7BHP',
+    apiKey: 'AIzaSyAEP-JiVSof360uxOfzX9aIaqvQP1VUgTQ',
+    appId: '1:343037176397:web:a4bdede20b616bd2194a04',
+    messagingSenderId: '343037176397',
+    projectId: 'knot-371113',
+    authDomain: 'knot-371113.firebaseapp.com',
+    databaseURL: 'https://knot-371113-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'knot-371113.appspot.com',
+    measurementId: 'G-B9X6ZSKFGY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDvVOdXRB9kZOswY1r3HG0cKIj99SQER78',
-    appId: '1:333792263271:android:879d7e8481b77b7a6d68c2',
-    messagingSenderId: '333792263271',
-    projectId: 'cse4186-ff4e8',
-    databaseURL: 'https://cse4186-ff4e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'cse4186-ff4e8.appspot.com',
+    apiKey: 'AIzaSyCETZpeD9vix5oHJDZQI6VEtoDbEHzYx_g',
+    appId: '1:343037176397:android:133fe9428d5a2760194a04',
+    messagingSenderId: '343037176397',
+    projectId: 'knot-371113',
+    databaseURL: 'https://knot-371113-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'knot-371113.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBhAceAGNtXdt5MoMb59YEInbR62XriAeE',
-    appId: '1:333792263271:ios:988507ac96fd749b6d68c2',
-    messagingSenderId: '333792263271',
-    projectId: 'cse4186-ff4e8',
-    databaseURL: 'https://cse4186-ff4e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'cse4186-ff4e8.appspot.com',
-    iosClientId: '333792263271-g9h30r8hjpnrun2o0apgcsu583sea6s4.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD5-DEAmrlDVCogQ28lE6n931poZcKlyq4',
+    appId: '1:343037176397:ios:24bb260063042eca194a04',
+    messagingSenderId: '343037176397',
+    projectId: 'knot-371113',
+    databaseURL: 'https://knot-371113-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'knot-371113.appspot.com',
+    iosClientId: '343037176397-q1s3inshdi8d7ogk4gmmiak2tnnk1mja.apps.googleusercontent.com',
     iosBundleId: 'com.example.knot',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBhAceAGNtXdt5MoMb59YEInbR62XriAeE',
-    appId: '1:333792263271:ios:988507ac96fd749b6d68c2',
-    messagingSenderId: '333792263271',
-    projectId: 'cse4186-ff4e8',
-    databaseURL: 'https://cse4186-ff4e8-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'cse4186-ff4e8.appspot.com',
-    iosClientId: '333792263271-g9h30r8hjpnrun2o0apgcsu583sea6s4.apps.googleusercontent.com',
+    apiKey: 'AIzaSyD5-DEAmrlDVCogQ28lE6n931poZcKlyq4',
+    appId: '1:343037176397:ios:24bb260063042eca194a04',
+    messagingSenderId: '343037176397',
+    projectId: 'knot-371113',
+    databaseURL: 'https://knot-371113-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'knot-371113.appspot.com',
+    iosClientId: '343037176397-q1s3inshdi8d7ogk4gmmiak2tnnk1mja.apps.googleusercontent.com',
     iosBundleId: 'com.example.knot',
   );
 }
