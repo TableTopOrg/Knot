@@ -79,40 +79,6 @@ class _MainPageState extends State<MainPage> {
     ),
   );
 
-  Widget buildProgress() => StreamBuilder<TaskSnapshot>(
-      stream: uploadTask?.snapshotEvents,
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-          final data = snapshot.data!;
-          double progress = data.bytesTransferred / data.totalBytes;
-
-          return SizedBox(
-              height: 50,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  LinearProgressIndicator(
-                    value: progress,
-                    backgroundColor: Colors.grey,
-                    color: Colors.green,
-                  ),
-                  Center(
-                    child: Text(
-                      '${(100 * progress).roundToDouble()}%',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  )
-                ],
-              )
-
-          );
-        }
-        else{
-          return const SizedBox(height: 50);
-        }
-      }
-  );
-
 }
 
 class HomePage extends StatefulWidget {
@@ -123,69 +89,53 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage>{
+  DownloadTask? downloadTask;
 
-  late Future<ListResult> futureFiles;
-  //Map<int, double> downloadProgress = {};
+  Future downloadFile() async{
+    final dir = await getApplicationDocumentsDirectory();
+    for(int i = 0; i < notes.length; i++) {
+      final path = '${dir.path}/note_$i.json';
+      final file = File(path);
 
-  @override
-  void initState() {
-    super.initState();
+      // print(file);
+      final ref = FirebaseStorage.instance.ref().child(path);
+      setState(() {
+        downloadTask = ref.writeToFile(file);
+      });
 
-    futureFiles = FirebaseStorage.instance.ref('/json').listAll();
+      final snapshot = await downloadTask!.whenComplete(() {});
+
+      // final urlDownload = await snapshot.ref.getDownloadURL();
+      //print('Download Link: $urlDownload');
+    }
+
+    setState(() {
+      downloadTask = null;
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: const Text('Download Json'),
+      title: const Text('Download File'),
     ),
-    body: FutureBuilder<ListResult>(
-      future: futureFiles,
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-          final files = snapshot.data!.items;
-
-          return ListView.builder(
-            itemCount: files.length,
-            itemBuilder: (context, index)
-          {
-            final file = files[index];
-
-            return ListTile(
-              title: Text(file.name),
-              trailing: IconButton(
-                icon: const Icon(
-                  Icons.download,
-                  color: Colors.black,
-                ),
-
-              onPressed: () => downloadFile(index, file),
-              ),
-            );
-          },
-          );
-
-        }
-        else if(snapshot.hasError){
-          return const Center(child: Text('Error occurred'));
-        }
-        else{
-          return const Center(child: CircularProgressIndicator());
-        }
-      },
+    body: Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          /*ElevatedButton(
+            child: const Text('Select File'),
+            onPressed: selectFile,
+          ),*/
+          const SizedBox(height: 32),
+          ElevatedButton(
+            child: const Text('Download File'),
+            onPressed: downloadFile,
+          ),
+        ],
+      ),
     ),
   );
-
-
-
-  Future downloadFile(int index, Reference ref) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/${ref.name}');
-
-    await ref.writeToFile(file);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Downloaded ${ref.name}')),
-    );
-  }
 }
