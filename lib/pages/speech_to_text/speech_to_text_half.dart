@@ -97,16 +97,16 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 100,
       child: Align(
-        alignment: Alignment.bottomLeft,
+        alignment: Alignment.bottomCenter,
         child: Container(
           padding: EdgeInsets.all(10),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Container(
               color: Colors.grey[200],
-              width: 600,
+              width: 1000,
               height: 40,
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Align(

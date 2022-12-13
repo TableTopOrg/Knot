@@ -10,8 +10,6 @@ import 'package:knot/constants.dart';
 import 'package:knot/notes/notes.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
 import 'package:knot/pages/note/components/note_page_body.dart';
-import 'package:knot/pages/speech_to_text/audio_to_text.dart';
-import 'package:knot/pages/speech_to_text/realtime_speech_to_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import '../audio_record/audio_play.dart';

@@ -72,7 +72,7 @@ class _WelcomPageBodyState extends State<WelcomPageBody> {
       child: GridView.count(
           primary: false,
           padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
-          crossAxisCount: 2,
+          crossAxisCount: (MediaQuery.of(context).size.width / 200).round(),
           mainAxisSpacing: 10,
           children: notes.map(((note) {
             return Column(children: [

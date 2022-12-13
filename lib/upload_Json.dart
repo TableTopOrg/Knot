@@ -13,7 +13,7 @@ import 'package:path_provider/path_provider.dart';
 import 'notes/notes.dart';
 
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}): super(key: key);
+  const MainPage({Key? key}) : super(key: key);
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -33,10 +33,9 @@ class _MainPageState extends State<MainPage> {
     });
   }*/
 
-  Future uploadFile() async{
-    //await Firebase.initializeApp();
+  Future uploadFile() async {
     final dir = await getApplicationDocumentsDirectory();
-    for(int i = 0; i < notes.length; i++) {
+    for (int i = 0; i < notes.length; i++) {
       final path = '${dir.path}/note_$i.json';
       final file = File(path);
 
@@ -58,27 +57,26 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Upload File'),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /*ElevatedButton(
+        appBar: AppBar(
+          title: const Text('Upload File'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /*ElevatedButton(
             child: const Text('Select File'),
             onPressed: selectFile,
           ),*/
-          const SizedBox(height: 32),
-          ElevatedButton(
-            child: const Text('Upload File'),
-            onPressed: uploadFile,
+              const SizedBox(height: 32),
+              ElevatedButton(
+                child: const Text('Upload File'),
+                onPressed: uploadFile,
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
-
+        ),
+      );
 }
 
 class HomePage extends StatefulWidget {
@@ -88,12 +86,12 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _HomePageState extends State<HomePage> {
   DownloadTask? downloadTask;
 
-  Future downloadFile() async{
+  Future downloadFile() async {
     final dir = await getApplicationDocumentsDirectory();
-    for(int i = 0; i < notes.length; i++) {
+    for (int i = 0; i < notes.length; i++) {
       final path = '${dir.path}/note_$i.json';
       final file = File(path);
 
@@ -114,28 +112,26 @@ class _HomePageState extends State<HomePage>{
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      title: const Text('Download File'),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /*ElevatedButton(
+        appBar: AppBar(
+          title: const Text('Download File'),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /*ElevatedButton(
             child: const Text('Select File'),
             onPressed: selectFile,
           ),*/
-          const SizedBox(height: 32),
-          ElevatedButton(
-            child: const Text('Download File'),
-            onPressed: downloadFile,
+              const SizedBox(height: 32),
+              ElevatedButton(
+                child: const Text('Download File'),
+                onPressed: downloadFile,
+              ),
+            ],
           ),
-        ],
-      ),
-    ),
-  );
+        ),
+      );
 }
