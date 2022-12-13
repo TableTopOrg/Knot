@@ -20,10 +20,10 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  PlatformFile? pickedFile;
+  // PlatformFile? pickedFile;
   UploadTask? uploadTask;
 
-  Future selectFile() async{
+  /*Future selectFile() async{
     //await Firebase.initializeApp();
     final result = await FilePicker.platform.pickFiles();
     if(result == null) return;
@@ -31,22 +31,25 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       pickedFile = result.files.first;
     });
-  }
+  }*/
 
   Future uploadFile() async{
     //await Firebase.initializeApp();
-    final path = 'json/${pickedFile!.name}';
-    final file = File(pickedFile!.path!);
+    final dir = await getApplicationDocumentsDirectory();
+    for(int i = 0; i < notes.length; i++) {
+      final path = '${dir.path}/note_$i.json';
+      final file = File(path);
 
-    final ref = FirebaseStorage.instance.ref().child(path);
-    setState(() {
-      uploadTask = ref.putFile(file);
-    });
+      final ref = FirebaseStorage.instance.ref().child(path);
+      setState(() {
+        uploadTask = ref.putFile(file);
+      });
 
-    final snapshot = await uploadTask!.whenComplete(() {});
+      final snapshot = await uploadTask!.whenComplete(() {});
 
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    print('Download Link: $urlDownload');
+      final urlDownload = await snapshot.ref.getDownloadURL();
+      print('Download Link: $urlDownload');
+    }
 
     setState(() {
       uploadTask = null;
@@ -62,10 +65,10 @@ class _MainPageState extends State<MainPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ElevatedButton(
+          /*ElevatedButton(
             child: const Text('Select File'),
             onPressed: selectFile,
-          ),
+          ),*/
           const SizedBox(height: 32),
           ElevatedButton(
             child: const Text('Upload File'),
