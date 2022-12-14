@@ -176,7 +176,7 @@ class _NotePageBodyState extends State<NotePageBody> {
                   File('$directory/$e').existsSync()) {
                 return Container(
                     padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
-                    child: Image.file(File(e)));
+                    child: Image.file(File('$directory/$e')));
               } else {
                 return Container(
                     padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
