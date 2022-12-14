@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:knot/constants.dart';
 import 'package:knot/notes/notes.dart';
 import 'package:knot/pages/audio_record/audio_record.dart';
@@ -135,6 +136,29 @@ class _FloatingNoteState extends State<FloatingNote> {
             });
           },
           icon: const Icon(Icons.add),
+          color: textColorLight,
+        ),
+        IconButton(
+          onPressed: () {
+            setState(() {
+              (() async {
+                final ImagePicker picker = ImagePicker();
+                XFile? image =
+                    await picker.pickImage(source: ImageSource.gallery);
+                if (image == null) return;
+
+                final directory =
+                    (await getApplicationDocumentsDirectory()).path;
+                String fileName = image.name;
+                await File(image.path).rename('$directory/$fileName');
+
+                setState(() {
+                  sharedWords.add('$directory/$fileName');
+                });
+              })();
+            });
+          },
+          icon: const Icon(Icons.photo_album_sharp),
           color: textColorLight,
         ),
       ],

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:math';
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:knot/pages/note/components/note_page_sketcher.dart';
@@ -160,14 +161,22 @@ class _NotePageBodyState extends State<NotePageBody> {
           ListView(
             controller: _customController,
             padding: EdgeInsets.fromLTRB(0, 40, 0, 40),
-            children: widget.sharedString
-                .map((e) => Container(
+            children: widget.sharedString.map((e) {
+              if ((e.substring(e.length - 4) == ".jpg" ||
+                      e.substring(e.length - 4) == ".png") &&
+                  File(e).existsSync()) {
+                return Container(
+                    padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
+                    child: Image.file(File(e)));
+              } else {
+                return Container(
                     padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
                     child: Text(
                       e,
                       style: TextStyle(fontSize: 20),
-                    )))
-                .toList(),
+                    ));
+              }
+            }).toList(),
           ),
           buildGestureDetector(context),
         ],

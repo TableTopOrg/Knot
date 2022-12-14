@@ -140,6 +140,14 @@ class _WelcomePageState extends State<WelcomePage> {
                     .child(fileName)
                     .set({"base64": base64.encode(pngUint8)});
               }
+              if (extensionName == ".jpg" || extensionName == ".jpeg") {
+                final pngUint8 = await file.readAsBytes();
+                String fileName = basenameWithoutExtension(file.path);
+                await databaseRef
+                    .child("jpgs")
+                    .child(fileName)
+                    .set({"base64": base64.encode(pngUint8)});
+              }
 
               setState(() {
                 isFetching = false;
@@ -172,6 +180,12 @@ class _WelcomePageState extends State<WelcomePage> {
               for (String key in pngs.keys) {
                 await File('$directory/$key.png')
                     .writeAsBytes(base64.decode(pngs[key]["base64"]));
+              }
+
+              Map jpgs = snapshotValue["jpgs"];
+              for (String key in jpgs.keys) {
+                await File('$directory/$key.jpg')
+                    .writeAsBytes(base64.decode(jpgs[key]["base64"]));
               }
 
               setState(() {
