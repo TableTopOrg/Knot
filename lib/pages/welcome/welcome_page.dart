@@ -119,7 +119,7 @@ class _WelcomePageState extends State<WelcomePage> {
             final Iterable<File> files = entities.whereType<File>().toList();
 
             DatabaseReference databaseRef = FirebaseDatabase.instance.ref("/");
-            databaseRef.set({});
+            await databaseRef.set({});
 
             for (var file in files) {
               String extensionName = extension(file.path);
