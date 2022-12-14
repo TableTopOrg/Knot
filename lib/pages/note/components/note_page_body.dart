@@ -37,11 +37,19 @@ class _NotePageBodyState extends State<NotePageBody> {
   ScrollController _customController = ScrollController();
   ValueNotifier<int> _counterRepaint = ValueNotifier<int>(0);
 
+  String directory = "";
+
   @override
   void initState() {
     loadNote();
     _customController.addListener(() {
       setState(() {});
+    });
+
+    getApplicationDocumentsDirectory().then((value) {
+      setState(() {
+        directory = value.path;
+      });
     });
 
     super.initState();
@@ -164,7 +172,8 @@ class _NotePageBodyState extends State<NotePageBody> {
             children: widget.sharedString.map((e) {
               if ((e.substring(e.length - 4) == ".jpg" ||
                       e.substring(e.length - 4) == ".png") &&
-                  File(e).existsSync()) {
+                  directory != "" &&
+                  File('$directory/$e').existsSync()) {
                 return Container(
                     padding: EdgeInsets.fromLTRB(10, 40, 10, 40),
                     child: Image.file(File(e)));

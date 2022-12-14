@@ -153,7 +153,7 @@ class _FloatingNoteState extends State<FloatingNote> {
                 await File(image.path).rename('$directory/$fileName');
 
                 setState(() {
-                  sharedWords.add('$directory/$fileName');
+                  sharedWords.add(fileName);
                 });
               })();
             });
