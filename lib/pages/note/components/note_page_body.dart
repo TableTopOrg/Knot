@@ -141,6 +141,24 @@ class _NotePageBodyState extends State<NotePageBody> {
           onPanStart: handleDragStart,
           onPanEnd: handleDragEnd,
           onPanUpdate: handleDragUpdate,
+          onDoubleTap: () {
+            setState(() {
+              if (liveLines.isNotEmpty) {
+                liveLine = LiveLine(DateTime.now());
+                liveLines.removeLast();
+              }
+            });
+          },
+          onLongPress: () {
+            setState(() {
+              if (widget.sharedString.isNotEmpty) {
+                setState(() {
+                  widget.sharedString.removeLast();
+                  _customController.jumpTo(_customController.offset - 1);
+                });
+              }
+            });
+          },
           child: RepaintBoundary(
               child: Container(
                   color: Colors.transparent,
