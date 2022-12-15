@@ -142,7 +142,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
               ))
           .toList(),
       Text(
-        _lastWords == "" ? "Recognizing English(for test)..." : _lastWords,
+        _lastWords == "" ? "Listening..." : _lastWords,
         style: TextStyle(
             color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),
       ),
