@@ -71,14 +71,14 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
   void _startListening() async {
     if (_speechEnabled) {
       await _speechToText.listen(
-          localeId: "ko_KR",
+          //localeId: "ko_KR",
           onResult: _onSpeechResult,
-          listenFor: const Duration(seconds: 10),
-          pauseFor: const Duration(seconds: 10),
+          listenFor: const Duration(seconds: 60),
+          //pauseFor: const Duration(seconds: 10),
           partialResults: true,
           cancelOnError: true,
           onDevice: true,
-          listenMode: ListenMode.dictation);
+          listenMode: ListenMode.confirmation);
     }
 
     setState(() {});
@@ -113,9 +113,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  _lastWords == ""
-                      ? "Recognizing English(for test)..."
-                      : _lastWords,
+                  _lastWords == "" ? "음성 인식중..." : _lastWords,
                   style: TextStyle(
                       color: Colors.grey[700],
                       fontSize: 18,
@@ -142,7 +140,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
               ))
           .toList(),
       Text(
-        _lastWords == "" ? "Listening..." : _lastWords,
+        _lastWords == "" ? "음성 인식중..." : _lastWords,
         style: TextStyle(
             color: Colors.grey[700], fontSize: 18, fontWeight: FontWeight.w500),
       ),
