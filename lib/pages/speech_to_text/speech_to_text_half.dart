@@ -51,7 +51,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
       (Timer timer) {
         if (_speechToText.isNotListening) {
           if (_lastWords != "") {
-            widget.sharedString.add(_lastWords);
+            // widget.sharedString.add(_lastWords);
             // lastWords.add(_lastWords);
             widget.note.sttStrings = widget.sharedString;
             widget.refresh(-1);
@@ -116,10 +116,9 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
                   onTap: () {
                     if (_lastWords != "") {
                       if (_speechToText.isListening) _speechToText.stop();
-                      _startListening();
                       widget.sharedString.add(_lastWords);
-                      _lastWords = "";
                     }
+                    _lastWords = "";
                     widget.note.sttStrings = widget.sharedString;
                     widget.refresh(-1);
                   },
