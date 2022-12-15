@@ -95,10 +95,12 @@ class _NotePageBodyState extends State<NotePageBody> {
     final point = box
         .globalToLocal(dragStartDetails.globalPosition)
         .translate(0, _customController.offset);
+    final widthPoint = point.translate(
+        -point.dx + point.dx / MediaQuery.of(context).size.width, 0);
 
     setState(() {
       liveLine = LiveLine(DateTime.now());
-      liveLine.line = Line([point], currColor, currWidth);
+      liveLine.line = Line([widthPoint], currColor, currWidth);
       liveLine.scrollPosition = _customController.offset;
     });
   }
@@ -117,8 +119,10 @@ class _NotePageBodyState extends State<NotePageBody> {
     final point = box
         .globalToLocal(dragUpdateDetails.globalPosition)
         .translate(0, _customController.offset);
+    final widthPoint = point.translate(
+        -point.dx + point.dx / MediaQuery.of(context).size.width, 0);
 
-    final path = List<Offset>.from(liveLine.line.path)..add(point);
+    final path = List<Offset>.from(liveLine.line.path)..add(widthPoint);
     setState(() {
       liveLine.line = Line(path, currColor, currWidth);
     });
@@ -172,7 +176,8 @@ class _NotePageBodyState extends State<NotePageBody> {
                               repaint: _counterRepaint,
                               scrollPostion: _customController.hasClients
                                   ? _customController.offset
-                                  : 0)),
+                                  : 0,
+                              width: MediaQuery.of(context).size.width)),
                     ],
                   )))),
     );

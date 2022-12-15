@@ -78,7 +78,7 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
           partialResults: true,
           cancelOnError: true,
           onDevice: true,
-          listenMode: ListenMode.confirmation);
+          listenMode: ListenMode.dictation);
     }
 
     setState(() {});

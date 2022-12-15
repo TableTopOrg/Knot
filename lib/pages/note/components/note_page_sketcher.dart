@@ -53,11 +53,13 @@ class Sketcher extends CustomPainter {
   final List<Line> lines;
   final Listenable repaint;
   double scrollPostion;
+  double width;
 
   Sketcher(
       {required this.lines,
       required this.repaint,
-      required this.scrollPostion});
+      required this.scrollPostion,
+      required this.width});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -69,7 +71,10 @@ class Sketcher extends CustomPainter {
     for (int i = 0; i < lines.length; ++i) {
       for (int j = 0; j < lines[i].path.length - 1; ++j) {
         paint.strokeWidth = lines[i].width;
-        canvas.drawLine(lines[i].path[j], lines[i].path[j + 1], paint);
+        canvas.drawLine(
+            lines[i].path[j].translate(lines[i].path[j].dx * width, 0),
+            lines[i].path[j + 1].translate(lines[i].path[j + 1].dx * width, 0),
+            paint);
       }
     }
   }
