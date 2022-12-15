@@ -112,12 +112,24 @@ class _SpeechToTextHalfState extends State<SpeechToTextHalf> {
               padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  _lastWords == "" ? "음성 인식중..." : _lastWords,
-                  style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
+                child: GestureDetector(
+                  onTap: () {
+                    if (_lastWords != "") {
+                      if (_speechToText.isListening) _speechToText.stop();
+                      _startListening();
+                      widget.sharedString.add(_lastWords);
+                      _lastWords = "";
+                    }
+                    widget.note.sttStrings = widget.sharedString;
+                    widget.refresh(-1);
+                  },
+                  child: Text(
+                    _lastWords == "" ? "음성 인식중..." : _lastWords,
+                    style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
             ),
